@@ -1,6 +1,6 @@
-﻿$(function () {
-    var url = "/api/Books";
+﻿var url = "/api/Books";
 
+$(function () {
     $('#cuadroerror').hide();
 
     $linea = $('#books li');
@@ -20,6 +20,7 @@ function libroscorrecto(libros) {
 
         $linea.find('.AuthorName').text(libro.Author.Name);
         $linea.find('.Title').text(libro.Title);
+        $linea.find('a[href]').prop('href', url + "/" + libro.Id).click(librodetalle);
 
         $books.append($linea);
 
@@ -27,7 +28,23 @@ function libroscorrecto(libros) {
     });
 }
 
+function librodetalle(e) {
+    e.preventDefault();
+
+    $.getJSON(this.href, function (libro) {
+        $('#AuthorName').text(libro.Author.Name);
+        $('#Title').text(libro.Title);
+        $('#Year').text(libro.Year);
+        $('#Genre').text(libro.Genre);
+        $('#Price').text(libro.Price);
+    });
+}
+
 function librosfallo(jqXHR, textStatus, errorThrown) {
+    if (jqXHR.readyState === 0) {
+        errorThrown = "ERROR DE CONEXIÓN";
+    }
+
     console.log(jqXHR, textStatus, errorThrown);
 
     $('#cuadroerror').show();
