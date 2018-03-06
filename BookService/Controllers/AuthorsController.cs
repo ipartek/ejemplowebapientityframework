@@ -102,6 +102,11 @@ namespace BookService.Controllers
             return Ok(author);
         }
 
+        public string DeleteAuthor()
+        {
+            return "Prueba";
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
