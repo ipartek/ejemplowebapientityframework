@@ -62,12 +62,28 @@ function libroscorrecto(libros) {
 
         $linea.find('.AuthorName').text(libro.Author.Name);
         $linea.find('.Title').text(libro.Title);
-        $linea.find('a[href]').prop('href', url + "/" + libro.Id).click(librodetalle);
+        $linea.find('.detalles').prop('href', url + "/" + libro.Id).click(librodetalle);
+        $linea.find('.borrar').prop('href', url + "/" + libro.Id).click(libroborrar);
 
         $books.append($linea);
 
         console.log(key, libro);
     });
+}
+
+function libroborrar(e) {
+    e.preventDefault();
+
+    $.ajax({
+        url: this.href,
+        method: 'DELETE',
+        //data: null,
+        dataType: 'json',
+        contentType: 'application/json'
+    }).done(function (libro) {
+        console.log(libro);
+        $.getJSON(url, libroscorrecto).fail(fallo);
+    }).fail(fallo);
 }
 
 function librodetalle(e) {
