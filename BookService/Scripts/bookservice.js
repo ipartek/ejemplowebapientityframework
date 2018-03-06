@@ -39,6 +39,7 @@ function formsubmit(e) {
         contentType: 'application/json'
     }).done(function (libro) {
         console.log(libro);
+        $.getJSON(url, libroscorrecto).fail(fallo);
     }).fail(fallo);
 }
 
@@ -53,6 +54,8 @@ function autorescorrecto(autores) {
 
 function libroscorrecto(libros) {
     $books = $('#books');
+
+    $books.empty();
 
     $.each(libros, function (key, libro) {
         $linea = $linea.clone();
