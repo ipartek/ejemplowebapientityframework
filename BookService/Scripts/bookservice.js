@@ -1,4 +1,5 @@
 ﻿var url = "/api/Books";
+var urlAuthors = "/api/Authors";
 
 $(function () {
     $('#cuadroerror').hide();
@@ -9,8 +10,18 @@ $(function () {
 
     console.log($linea);
 
-    $.getJSON(url, libroscorrecto).fail(librosfallo);
+    $.getJSON(url, libroscorrecto).fail(fallo);
+    $.getJSON(urlAuthors, autorescorrecto).fail(fallo);
 });
+
+function autorescorrecto(autores) {
+    $authors = $('#authors');
+
+    $.each(autores, function (key, autor) {
+        $authors.append(new Option(autor.Name, autor.Id));
+    });
+    
+}
 
 function libroscorrecto(libros) {
     $books = $('#books');
@@ -40,7 +51,7 @@ function librodetalle(e) {
     });
 }
 
-function librosfallo(jqXHR, textStatus, errorThrown) {
+function fallo(jqXHR, textStatus, errorThrown) {
     if (jqXHR.readyState === 0) {
         errorThrown = "ERROR DE CONEXIÓN";
     }
