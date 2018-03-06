@@ -2,6 +2,8 @@
 var urlAuthors = "/api/Authors";
 
 $(function () {
+    console.clear();
+
     $('#cuadroerror').hide();
 
     $linea = $('#books li');
@@ -12,7 +14,33 @@ $(function () {
 
     $.getJSON(url, libroscorrecto).fail(fallo);
     $.getJSON(urlAuthors, autorescorrecto).fail(fallo);
+
+    $('#formbooks').submit(formsubmit);
 });
+
+function formsubmit(e) {
+    e.preventDefault();
+
+    var book = {
+        "Title": $('#inputTitle').val(),
+        "Year": $('#inputYear').val(),
+        "Price": $('#inputPrice').val(),
+        "Genre": $('#inputGenre').val(),
+        "AuthorId": $('#authors').val()
+    };
+
+    console.log(JSON.stringify(book));
+
+    $.ajax({
+        url: url,
+        method: 'POST',
+        data: JSON.stringify(book),
+        dataType: 'json',
+        contentType: 'application/json'
+    }).done(function (libro) {
+        console.log(libro);
+    }).fail(fallo);
+}
 
 function autorescorrecto(autores) {
     $authors = $('#authors');
