@@ -20,14 +20,23 @@ namespace BookService.Controllers
         // GET: api/Books
         public IQueryable<Book> GetBooks()
         {
-            return db.Books.Include(b => b.Author);
+            //No hemos usado virtual en la propiedad Author de Book en ninguno de los casos
+            return db.Books;
+            
+            //Petición explícita de los autores de los libros
+            //return db.Books.Include(b => b.Author);
         }
 
         // GET: api/Books/5
         [ResponseType(typeof(Book))]
         public async Task<IHttpActionResult> GetBook(int id)
         {
+            //No hemos usado virtual en la propiedad Author de Book en ninguno de los casos
             Book book = await db.Books.FindAsync(id);
+
+            //Petición explícita del autor del libro
+            //Book book = await db.Books.Include(b => b.Author).FirstOrDefaultAsync(b => b.Id == id);
+
             if (book == null)
             {
                 return NotFound();
